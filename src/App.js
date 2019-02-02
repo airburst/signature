@@ -1,7 +1,7 @@
 import React from 'react';
 import SignaturePad from 'react-signature-pad-wrapper';
 import 'semantic-ui-css/semantic.min.css';
-import { Label, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Contract from './contract';
 
@@ -34,18 +34,18 @@ const ContractWrapper = styled.div`
   padding: 16px;
 `;
 
-const SignatureWrapper = styled(Segment)`
+const SignatureWrapper = styled(Segment.Group)`
   width: 100%;
   box-shadow: none !important;
-`;
-
-const SignButton = styled(Label)`
-  cursor: pointer;
 `;
 
 const Signed = styled.div`
   width: 100%;
   padding: 16px;
+`;
+
+const Img = styled.img`
+  max-width: 100%;
 `;
 
 const options={
@@ -81,17 +81,16 @@ class App extends React.Component {
             <ContractWrapper>
               <Contract />
             </ContractWrapper>
-            {!signature && <SignatureWrapper>
-              <SignaturePad {...options} ref={ref => this.signaturePad = ref}  />
-              <SignButton
-                attached="bottom right"
-                onClick={this.handleSave}
-              >
-                Click to sign
-              </SignButton>
-            </SignatureWrapper>}
+            {!signature &&
+              <SignatureWrapper>
+                <SignaturePad {...options} ref={ref => this.signaturePad = ref}  />
+                <Segment>
+                  <Button onClick={this.handleSave} primary>Click here to sign</Button>
+                  <Button onClick={this.handleClear}>Clear</Button>
+                </Segment>
+              </SignatureWrapper>}
             {signature && <Signed>Signed:
-              <img src={signature} alt="signature" />
+              <Img src={signature} alt="signature" />
             </Signed>}
           </Segment>
         </Container>
