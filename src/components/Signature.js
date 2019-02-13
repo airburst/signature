@@ -25,7 +25,7 @@ const Img = styled.img`
   max-width: 100%;
 `;
 
-const options = {
+const DEFAULT_OPTIONS = {
   minWidth: 5,
   height: 200,
   penColor: 'rgb(2,2,2)'
@@ -40,13 +40,15 @@ class Signature extends Component {
     saveAction: PropTypes.func.isRequired,
     noSignatureAction: PropTypes.func,
     signButtonText: PropTypes.string,
-    clearButtonText: PropTypes.string
+    clearButtonText: PropTypes.string,
+    height: PropTypes.number
   };
 
   static defaultProps = {
     noSignatureAction: () => alert('Please provide a signature first.'),
     signButtonText: 'Click here to sign',
-    clearButtonText: 'Clear'
+    clearButtonText: 'Clear',
+    height: 200
   };
 
   handleClear = () => this.signaturePad.instance.clear();
@@ -64,8 +66,9 @@ class Signature extends Component {
   };
 
   render() {
-    const { signButtonText, clearButtonText } = this.props;
+    const { signButtonText, clearButtonText, height } = this.props;
     const { signature } = this.state;
+    const options = { ...DEFAULT_OPTIONS, height };
 
     return (
       <Fragment>
