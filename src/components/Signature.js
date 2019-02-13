@@ -37,14 +37,23 @@ class Signature extends Component {
   };
 
   static propTypes = {
-    saveAction: PropTypes.func.isRequired
+    saveAction: PropTypes.func.isRequired,
+    noSignatureAction: PropTypes.func,
+    signButtonText: PropTypes.string,
+    clearButtonText: PropTypes.string
+  };
+
+  static defaultProps = {
+    noSignatureAction: () => alert('Please provide a signature first.'),
+    signButtonText: 'Click here to sign',
+    clearButtonText: 'Clear'
   };
 
   handleClear = () => this.signaturePad.instance.clear();
 
   handleSave = () => {
     if (this.signaturePad.isEmpty()) {
-      alert('Please provide a signature first.');
+      this.props.noSignatureAction();
     } else {
       const signatureImage = this.signaturePad.toDataURL();
       this.setState(
@@ -55,6 +64,7 @@ class Signature extends Component {
   };
 
   render() {
+    const { signButtonText, clearButtonText } = this.props;
     const { signature } = this.state;
 
     return (
@@ -65,9 +75,9 @@ class Signature extends Component {
             <SignaturePad {...options} ref={ref => (this.signaturePad = ref)} />
             <SignatureButtonsContainer>
               <Button onClick={this.handleSave} primary>
-                Click here to sign
+                {signButtonText}
               </Button>
-              <Button onClick={this.handleClear}>Clear</Button>
+              <Button onClick={this.handleClear}>{clearButtonText}</Button>
             </SignatureButtonsContainer>
           </SignatureWrapper>
         )}
