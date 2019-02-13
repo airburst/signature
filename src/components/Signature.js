@@ -38,20 +38,29 @@ class Signature extends Component {
 
   static propTypes = {
     saveAction: PropTypes.func.isRequired,
+    signature: PropTypes.string,
+    height: PropTypes.number,
     noSignatureAction: PropTypes.func,
     signButtonText: PropTypes.string,
-    clearButtonText: PropTypes.string,
-    height: PropTypes.number
+    clearButtonText: PropTypes.string
   };
 
   static defaultProps = {
     noSignatureAction: () => alert('Please provide a signature first.'),
+    signature: null,
+    height: 200,
     signButtonText: 'Click here to sign',
-    clearButtonText: 'Clear',
-    height: 200
+    clearButtonText: 'Clear'
   };
 
-  handleClear = () => this.signaturePad.instance.clear();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.signature !== prevState.signature) {
+      return { signature: nextProps.signature };
+    } else return null;
+  }
+
+  handleClear = () =>
+    this.setState({ signature: null }, this.signaturePad.instance.clear());
 
   handleSave = () => {
     if (this.signaturePad.isEmpty()) {
