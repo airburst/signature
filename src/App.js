@@ -1,8 +1,8 @@
 import React from 'react';
-import SignaturePad from 'react-signature-pad-wrapper';
 import 'semantic-ui-css/semantic.min.css';
-import { Button, Segment } from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
+import Signature from './components/Signature';
 import Contract from './contract';
 
 const Wrapper = styled.div`
@@ -34,45 +34,15 @@ const ContractWrapper = styled.div`
   padding: 16px;
 `;
 
-const SignatureWrapper = styled(Segment.Group)`
-  width: 100%;
-  box-shadow: none !important;
-`;
-
-const Signed = styled.div`
-  width: 100%;
-  padding: 16px;
-`;
-
-const Img = styled.img`
-  max-width: 100%;
-`;
-
-const options={
-  minWidth: 5,
-  height: 200,
-  penColor: 'rgb(2,2,2)'
-};
-
 class App extends React.Component {
-  state = {
-    signature: null
-  }
-
-  handleClear = () => this.signaturePad.instance.clear();
-
-  handleSave = () => {
-    if (this.signaturePad.isEmpty()) {
-        // eslint-disable-next-line no-alert
-        alert('Please provide a signature first.');
-    } else {
-      this.setState({ signature: this.signaturePad.toDataURL() })
-    }
-  }
+  saveHandler = signatureImage => {
+    console.log(
+      'Please replace this with a real persist function to save data'
+    );
+    console.log(signatureImage);
+  };
 
   render() {
-    const { signature } = this.state;
-
     return (
       <Wrapper>
         <Container>
@@ -81,17 +51,7 @@ class App extends React.Component {
             <ContractWrapper>
               <Contract />
             </ContractWrapper>
-            {!signature &&
-              <SignatureWrapper>
-                <SignaturePad {...options} ref={ref => this.signaturePad = ref}  />
-                <Segment>
-                  <Button onClick={this.handleSave} primary>Click here to sign</Button>
-                  <Button onClick={this.handleClear}>Clear</Button>
-                </Segment>
-              </SignatureWrapper>}
-            {signature && <Signed>Signed:
-              <Img src={signature} alt="signature" />
-            </Signed>}
+            <Signature saveAction={this.saveHandler} />
           </Segment>
         </Container>
       </Wrapper>
